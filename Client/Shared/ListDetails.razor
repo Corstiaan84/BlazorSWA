@@ -95,6 +95,6 @@
 
   private async Task PublishLinkBundle()
   {
-    var linkBundle = await Http.GetFromJsonAsync<LinkBundle>($"api/links/{StateContainer.LinkBundle.VanityUrl}") ?? new LinkBundle();
+    var linkBundle = await Http.PostAsJsonAsync<LinkBundle>($"api/links/{StateContainer.LinkBundle.VanityUrl}", StateContainer.LinkBundle);
   }
 }
