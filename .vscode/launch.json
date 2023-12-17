@@ -12,6 +12,15 @@
       "type": "coreclr",
       "request": "attach",
       "processId": "${command:azureFunctions.pickProcess}"
+    },
+    {
+      "name": "SWA Emulator",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "swa",
+      "args": ["start http://localhost:5000 --api-location ./api"],
+      "cwd": "${workspaceRoot}",
+      "console": "integratedTerminal"
     }
   ],
   "compounds": [

@@ -76,6 +76,20 @@
 			"command": "host start",
 			"isBackground": true,
 			"problemMatcher": "$func-watch"
+		},
+		{
+			"type": "process",
+			"label": "Start SWA Emulator",
+			"command": "swa",
+			"args": [
+				"start",
+				"http://localhost:5000",
+				"--api-location",
+				"./api"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
 		}
 	]
 }

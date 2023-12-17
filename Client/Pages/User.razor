@@ -1,7 +1,10 @@
 @page "/s/user"
 
+@using BlazorApp.Shared
+
 @inject StateContainer StateContainer
 @inject NavigationManager NavigationManager
+@inject HttpClient Http
 
 <div class="container">
   <div class="lists">
@@ -23,19 +26,18 @@
       {
         @foreach (var linkBundle in StateContainer.User.LinkBundles)
         {
-          // Code inside the loop
           <div class="column is-one-quarter-widescreen is-one-third-desktop is-half-tablet">
             <img src="../assets/bg.png" alt class="list-dots is-pulled-right is-relative" />
-            <div class="card list-item is-relative" @click="editList(list.vanityUrl)">
+            <div class="card list-item is-relative" @onclick="EditList">
               <span class="list-count tag is-primary is-size-6 has-text-weight-bold">
-                {{ list.linkCount }} Links
+                @linkBundle.Links.Count Links
               </span>
               <div class="list-item-content">
                 <div class="card-content list-item-content-details">
                   <h3 class="is-block list-title is-size-5 has-text-weight-medium">
-                    {{ list.vanityUrl }}
+                    @linkBundle.VanityUrl
                   </h3>
-                  <p class="is-size-6">{{ list.description }}</p>
+                  <p class="is-size-6">@linkBundle.Description</p>
                   <p></p>
                 </div>
               </div>
@@ -48,7 +50,27 @@
 </div>
 
 @code {
+
+  // if this a first render, get the users link bundles
+  protected override async Task OnParametersSetAsync()
+  {
+    var linkBundles = await GetLinkBundlesForUser();
+    StateContainer.User.LinkBundles = linkBundles;
+  }
+
+  public async Task<List<LinkBundle>> GetLinkBundlesForUser()
+  {
+    var client = new HttpClient();
+    var response = await Http.GetFromJsonAsync<List<LinkBundle>>($"api/user");
+    return response;
+  }
+
   private void NewList()
+  {
+    NavigationManager.NavigateTo("/s/edit");
+  }
+
+  private void EditList()
   {
     NavigationManager.NavigateTo("/s/edit");
   }

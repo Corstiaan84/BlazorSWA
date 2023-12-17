@@ -77,13 +77,6 @@ public class StateContainer
     NotifyStateChanged();
   }
 
-  public async Task<HttpResponseMessage> GetLinkBundle(string vanityUrl)
-  {
-    var client = new HttpClient();
-    var response = await client.GetAsync($"links/{vanityUrl}");
-    return response;
-  }
-
   public event Action? OnChange;
 
   private void NotifyStateChanged() => OnChange?.Invoke();
