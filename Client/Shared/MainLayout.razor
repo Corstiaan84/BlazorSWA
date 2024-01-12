@@ -17,6 +17,9 @@
   protected override async Task OnInitializedAsync()
   {
     await GetClientPrincipalAsync();
+
+    // load link bundle from local storage
+    await StateContainer.LoadLinkBundleFromLocalStorage();
   }
 
   private async Task GetClientPrincipalAsync()
